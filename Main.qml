@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import DaLexto
 import DaLexto.Utils
 import DaLexto.Controls
 
@@ -10,20 +11,90 @@ AppWindow {
     height: 768
     minimumHeight: 480
     minimumWidth: 640
-    color: "#1f1f1f"
+    titleBarSize: 40
+    //color: "#1f1f1f"
+    color: Theme.window
 
-    DaButton{
-        id:test
-        anchors.centerIn: parent
-        width: 80
-        height: 35
-        text: qsTr("Buton")
+    Rectangle{
+        id: titleBar
+        width: parent.width
+        height: mainWindow.titleBarSize
+        color: Theme.base
 
-        onClicked: mainWindow.quitApplication()
+        DaButton{
+            id:quitButton
+            anchors.right: parent.right
+            height: parent.height
+            width: height
+            radius: 0
+            buttonHover: Theme.hoverDanger
+            icon.source: Provide.icon("navigation", "close")
+            onClicked: mainWindow.quitApplication()
+        }
+        DaButton{
+            id:maximizeButton
+            anchors.right: quitButton.left
+            height: parent.height
+            width: height
+            radius: 0
+            icon.source: Provide.icon("action", "maximize2")
+            icon.width: 20
+            icon.height: 20
+            onClicked: mainWindow.maximizeWindow()
+        }
+        DaButton{
+            id:minimizeButton
+            anchors.right: maximizeButton.left
+            height: parent.height
+            width: height
+            radius: 0
+            icon.source: Provide.icon("action", "minimize")
+            onClicked: mainWindow.minimizeWindow()
+        }
+        DaButton{
+            id:tipsButton
+            anchors.right: minimizeButton.left
+            height: parent.height
+            width: height
+            radius: 0
+            buttonHover: Theme.hoverInfo
+            icon.source: Provide.icon("action", "lightbulb")
+            onClicked: console.log("Tips don't do anything yet!")
+        }
+        DaButton{
+            id:settingButton
+            anchors.right: tipsButton.left
+            height: parent.height
+            width: height
+            radius: 0
+            buttonHover: Theme.hoverInfo
+            icon.source: Provide.icon("action", "settings")
+            onClicked: console.log("Settings don't do anything yet!")
+        }
     }
-    Item{
+
+    Rectangle{
+        id: menuBar
+        anchors.top: titleBar.bottom
+        width: parent.width
+        height: 50
+        color: "transparent"
+        DaButton{
+            id: menuButton
+
+        }
+    }
+
+    DaSwitch{
+        id: themeSwitch
+        text: qsTr("Light")
+        onCheckedChanged:{
+            Theme.switchTheme(themeSwitch.checked ? "dark" : "light")
+            text = themeSwitch.checked ? qsTr("Dark") : qsTr("Light")
+        }
 
     }
+
 
     property Splash splash: Splash {
         onTimeout: mainWindow.show()
@@ -44,7 +115,7 @@ AppWindow {
         signal timeout
         Image {
             id: splashImage
-            source: "qrc:/DaLexto/assets/LOGO.png"
+            source: Provide.icon("logos","splash")
         }
         TapHandler {
             onTapped: splashScreen.timeout()
@@ -57,6 +128,7 @@ AppWindow {
             }
         }
     }
+
 }
 
 
