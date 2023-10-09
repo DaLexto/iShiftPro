@@ -11,9 +11,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick Svg)
+find_package(Qt6 6.6 REQUIRED COMPONENTS Core Gui Qml Quick Svg)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.6)
 
 qt_add_executable(appiShiftPro main.cpp)
 
@@ -23,6 +23,7 @@ qt_add_qml_module(appiShiftPro
   QML_FILES
     Main.qml
   RESOURCES
+  SOURCES appwindow.h appwindow.cpp
 )
 add_subdirectory(E:/PROJECTS/QtProjects/DaLexto E:/PROJECTS/QtProjects/iShiftPro/build/DaLexto)
 

@@ -5,84 +5,87 @@ import DaLexto
 import DaLexto.Utils
 import DaLexto.Controls
 
-AppWindow {
+ApplicationWindow {
     id:mainWindow
-    width: 1080; height: 768
-    minimumHeight: 480; minimumWidth: 640
-    titleBarSize: 40
+    width: 1440; height: 810
+    minimumWidth: 960; minimumHeight: 540
+    //titleBarSize: 40
     color: Theme.window
-//---
-    Rectangle{
-        id: titleBar
-        width: parent.width; height: mainWindow.titleBarSize
-        color: Theme.base
 
-        DaButton{
-            id:quitButton
-            anchors.right: parent.right
-            width: height; height: parent.height
-            radius: 0
+    //---
+//    Rectangle{
+//        id: titleBar
+//        width: parent.width; height: mainWindow.titleBarSize
+//        color: Theme.base
 
-            flat: true
+//        DaButton{
+//            id:quitButton
+//            anchors.right: parent.right
+//            width: height; height: parent.height
+//            radius: 0
 
-            icon.source: Provide.icon("navigation", "close")
-            onClicked: mainWindow.quitApplication()
-        }
+//            flat: true
 
-        DaButton{
-            id:maximizeButton
-            anchors.right: quitButton.left
-            width: height; height: parent.height
-            radius: 0
+//            icon.source: Provide.icon("navigation", "close")
+//            onClicked: mainWindow.quitApplication()
+//        }
 
-            flat: true
+//        DaButton{
+//            id:maximizeButton
+//            anchors.right: quitButton.left
+//            width: height; height: parent.height
+//            radius: 0
 
-            icon.source: Provide.icon("action", "maximize2")
-            icon.width: 20
-            icon.height: 20
-            onClicked: mainWindow.maximizeWindow()
-        }
+//            flat: true
 
-        DaButton{
-            id:minimizeButton
-            anchors.right: maximizeButton.left
-            width: height; height: parent.height
-            radius: 0
+//            icon.source: Provide.icon("action", "maximize2")
+//            icon.width: 20
+//            icon.height: 20
+//            onClicked: mainWindow.maximizeWindow()
+//        }
 
-            flat: true
+//        DaButton{
+//            id:minimizeButton
+//            anchors.right: maximizeButton.left
+//            width: height; height: parent.height
+//            radius: 0
 
-            icon.source: Provide.icon("action", "minimize")
-            onClicked: mainWindow.minimizeWindow()
-        }
+//            flat: true
 
-        DaButton{
-            id:tipsButton
-            anchors.right: minimizeButton.left
-            width: height; height: parent.height
-            radius: 0
+//            icon.source: Provide.icon("action", "minimize")
+//            onClicked: mainWindow.minimizeWindow()
+//        }
 
-            flat: true
+//        DaButton{
+//            id:tipsButton
+//            anchors.right: minimizeButton.left
+//            width: height; height: parent.height
+//            radius: 0
 
-            icon.source: Provide.icon("action", "lightbulb")
-            onClicked: console.log("Tips don't do anything yet!")
-        }
+//            flat: true
 
-        DaButton{
-            id:settingButton
-            anchors.right: tipsButton.left
-            width: height; height: parent.height
-            radius: 0
+//            icon.source: Provide.icon("action", "lightbulb")
+//            onClicked: console.log("Tips don't do anything yet!")
+//        }
 
-            flat: true
+//        DaButton{
+//            id:settingButton
+//            anchors.right: tipsButton.left
+//            width: height; height: parent.height
+//            radius: 0
 
-            icon.source: Provide.icon("action", "settings")
-            onClicked: console.log("Settings don't do anything yet!")
-        }
-    }
-//---
+//            flat: true
+
+//            icon.source: Provide.icon("action", "settings")
+//            onClicked: console.log("Settings don't do anything yet!")
+//        }
+
+//    }
+    //---
+
     Rectangle{
         id: menuBar
-        anchors.top: titleBar.bottom
+        anchors.top: parent.top
         anchors.left: parent.left
         width: parent.width; height: 40
         color: "transparent"/*
@@ -100,6 +103,10 @@ AppWindow {
             flat: true
 
             icon.source: Provide.icon("navigation","menu")
+
+            onClicked: {
+                leftSidebar.showHide();
+            }
         }
         //...
         ButtonGroup{
@@ -169,7 +176,7 @@ AppWindow {
         }
 
     }
-//---
+    //---
     Rectangle{
         id: controlBar
         anchors.top: menuBar.bottom
@@ -179,8 +186,29 @@ AppWindow {
 
         color: Theme.base
     }
+    //---
 
-/////////////////////////////////////////////////////////
+    DaSidebar {
+        id: leftSidebar
+        width: 350; height: parent.height
+        y: controlBar.height *2
+
+       autoHide: 1100
+    }
+
+    DaSidebar {
+        id: rightSidebar
+        width: 350; height: parent.height
+        y: controlBar.height *2
+       autoHide: 1200
+       edge: "RightEdge"
+       color: Theme.base
+    }
+
+    //---
+
+
+    /////////////////////////////////////////////////////////
     property Splash splash: Splash {
         onTimeout: mainWindow.show()
     }
@@ -210,6 +238,7 @@ AppWindow {
             onTriggered: {
                 splashScreen.visible = false
                 splashScreen.timeout()
+                splashScreen.destroy()
             }
         }
     }
